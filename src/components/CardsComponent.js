@@ -141,7 +141,7 @@ export default class CardsComponent extends Component {
         <div className="mx-auto" style={{width: "19rem", marginTop: "10%", textAlign: "center"}}>
                
             <h1>Flashcards!</h1>
-                
+            
             { !this.state.endScreen ? 
             <div>
             
