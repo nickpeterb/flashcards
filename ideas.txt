@@ -1,0 +1,24 @@
+DONE {
+  Rewards guesses on the first try:
+  if user gets question wrong --> nothing
+  if user gets question right --> score += cards[currCard].level / round
+}
+
+Fatma's algorithm:
+if user gets question wrong --> cards[currCard].level *= 2 --> cards[nextCard].level <= cards[currCard].level
+if user gets question right --> cards[currCard].level /= 2 --> cards[nextCard].level >= cards[currCard].level
+
+
+IDEAS
+/* put off for now...
+- Implement algorithm as described above -- make outline first
+- Implement setting nextCard based on correct(or incorrect) answer(using .find())
+*/
+
+- Add 'scoreboard' on the side of page 
+
+- Implement react router and create pages...
+    - EndScreen (PlayAgain routes back to "/" , may need to re-get cards from db)
+    - EditCards (Bootstrap InputGroup populated with each card, its level, and a delete button - as well as extra inputs to add cards
+
+- Add support for multiple "decks" of flashcards
