@@ -1,5 +1,5 @@
 ## Flashcards
-Simple and robust flashcards app
+Simple and robust dark themed flashcards app
 Built using the MERN stack (MongoDB, Express, React, Node)
 Currently uses a "deck" of basic French vocabulary
 
