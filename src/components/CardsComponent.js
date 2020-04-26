@@ -3,18 +3,18 @@ import EndScreen from './EndScreen.js';
 import axios from 'axios';
 
 function Card(props){
-      return (
-        <div>
-            <div className={"card mb-3 bg-" + props.bgColor}  style={{ marginTop: "10%"}}>
-                <div className="card-header"> Score: {props.score} </div>
-                <div className="card-body">
-                    <h1 className="card-title"> {props.currSide ? props.side2 : props.side1} </h1>
-                    <p style={{margin: "0"}}>Difficulty: {props.level}</p>
-                </div>
-            </div>
-        </div>
-      )
-  }
+    return (
+      <div>
+          <div className={`card mb-3 bg-${props.bgColor}`}  style={{ marginTop: "10%"}}>
+              <div className="card-header"> Score: {props.score} </div>
+              <div className="card-body">
+                  <h1 className="card-title"> {props.currSide ? props.side2 : props.side1} </h1>
+                  <p style={{margin: "0"}}>Difficulty: {props.level}</p>
+              </div>
+          </div>
+      </div>
+    )
+}
   
 export default class CardsComponent extends Component {
     constructor(props) {
@@ -31,10 +31,10 @@ export default class CardsComponent extends Component {
         //keep track of card changes
         input: "",
         checked: false,
-        currSide: false,
+        currSide: false, //false = side1, true = side2
         bgColor: "info",
 
-        //keep track of views
+        //endScreen visibility
         endScreen: false
     }
     this.wrongAns = [];
@@ -62,7 +62,7 @@ export default class CardsComponent extends Component {
       //check answer (input against side2)
       if(this.state.input === this.state.cards[this.state.currCard].side2){
           this.setState({
-              //update score
+              //update score, penilize for each round
               score: this.state.score + this.state.cards[this.state.currCard].level / this.state.round,
               //update bgColor
               bgColor: "success"
@@ -144,8 +144,9 @@ export default class CardsComponent extends Component {
             
             { !this.state.endScreen ? 
             <div>
-            
+            { this.state.cards.length > 0 ? //can be replaced with optional chaining (?.): this.state.cards?.[] 
             <Card score={this.state.score} bgColor={this.state.bgColor} currSide={this.state.currSide} side1={this.state.cards[this.state.currCard].side1} side2={this.state.cards[this.state.currCard].side2} level={this.state.cards[this.state.currCard].level}/> 
+            : null }
             
             <form id="check-form">
             <div className="container">
