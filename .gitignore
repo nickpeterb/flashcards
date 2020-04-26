@@ -16,6 +16,7 @@ backend/node_modules
 
 # misc
 backend/.env
+.vscode
 .DS_Store
 .env.local
 .env.development.local
