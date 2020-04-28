@@ -135,6 +135,7 @@ class EditCard extends Component {
 
 			</div>
 			</div>
+			
 			</form>
 		
     )}
@@ -168,6 +169,7 @@ export default class EditCards extends Component {
 
     render(){
         return (
+		<div>
 		<div className="container" style={{ marginTop: "2%", textAlign: "center"}}>
 				
 			<h1 style={{padding:"1rem"}}>Edit Cards</h1>
@@ -186,5 +188,6 @@ export default class EditCards extends Component {
 			</ul>
 			
         </div>
+		</div>
     )}
 }

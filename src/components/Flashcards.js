@@ -2,6 +2,15 @@ import React, { Component } from 'react';
 import EndScreen from './EndScreen.js';
 import axios from 'axios';
 
+const checkIcon = <svg className="bi bi-check" width="1.7em" height="1.7em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+<path fillRule="evenodd" d="M13.854 3.646a.5.5 0 010 .708l-7 7a.5.5 0 01-.708 0l-3.5-3.5a.5.5 0 11.708-.708L6.5 10.293l6.646-6.647a.5.5 0 01.708 0z" clipRule="evenodd"/>
+</svg>;
+
+const nextIcon = <svg className="bi bi-arrow-right" width="1.7em" height="1.7em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+<path fillRule="evenodd" d="M10.146 4.646a.5.5 0 01.708 0l3 3a.5.5 0 010 .708l-3 3a.5.5 0 01-.708-.708L12.793 8l-2.647-2.646a.5.5 0 010-.708z" clipRule="evenodd"/>
+<path fillRule="evenodd" d="M2 8a.5.5 0 01.5-.5H13a.5.5 0 010 1H2.5A.5.5 0 012 8z" clipRule="evenodd"/>
+</svg>;
+
 function Card(props){
     return (
       <div>
@@ -16,7 +25,7 @@ function Card(props){
     )
 }
   
-export default class CardsComponent extends Component {
+export default class Flashcards extends Component {
     constructor(props) {
     super(props)
     this.state = {
@@ -137,40 +146,45 @@ export default class CardsComponent extends Component {
   
   render(){
       return (
+        <div>
       
         <div className="mx-auto" style={{width: "19rem", marginTop: "10%", textAlign: "center"}}>
                
-            <h1>Flashcards!</h1>
+            <h2>French</h2>
             
             { !this.state.endScreen ? 
             <div>
             { this.state.cards.length > 0 ? //can be replaced with optional chaining (?.): this.state.cards?.[] 
-            <Card score={this.state.score} bgColor={this.state.bgColor} currSide={this.state.currSide} side1={this.state.cards[this.state.currCard].side1} side2={this.state.cards[this.state.currCard].side2} level={this.state.cards[this.state.currCard].level}/> 
+                <Card score={this.state.score} bgColor={this.state.bgColor} currSide={this.state.currSide} side1={this.state.cards[this.state.currCard].side1} side2={this.state.cards[this.state.currCard].side2} level={this.state.cards[this.state.currCard].level}/> 
             : null }
             
             <form id="check-form">
             <div className="container">
             <div className="row no-gutters">
             
-                <div className="col-8" sytle={{padding: "5"}}>
+                <div className="col-9">
                     <label style={{float: "left"}}><input type="text" className="form-control form-control-lg" id="ansInput" onChange={this.handleInputChange} /></label> 
                 </div>
                 
-                <div className="col">
-                { 
-                this.state.checked ? 
-                <button onClick={this.handleNextClick} className="btn btn-primary btn-lg" name="nextBtn" style={{float:"right"}}>Next</button> : 
-                <button onClick={this.handleCheckClick} className="btn btn-primary btn-lg" name="checkBtn" style={{float:"right"}}>Check</button> 
+                <div className="col"> 
+                { this.state.checked ? 
+                    <button onClick={this.handleNextClick} className="btn btn-primary btn-lg" name="nextBtn" style={{float:"right", padding:"0.3em 0.7em"}}>{nextIcon}</button> 
+                :
+                    <button onClick={this.handleCheckClick} className="btn btn-primary btn-lg" name="checkBtn" style={{float:"right", padding:"0.3em 0.7em"}}>{checkIcon}</button> 
                 }
                 </div>
                 
             </div>
             </div>
             </form>
+
+            
+
             </div>
             : 
             <EndScreen score={this.state.score}/>
             }
+        </div>
         </div>
     )
   }
