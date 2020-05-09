@@ -1,6 +1,5 @@
 import React from 'react';
 import {Route, BrowserRouter, Switch} from 'react-router-dom';
-import './App.css';
 import "bootswatch/dist/darkly/bootstrap.min.css"; 
 import Flashcards from './components/Flashcards';
 import EditCards from './components/EditCards';

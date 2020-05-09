@@ -47,85 +47,84 @@ export default class Flashcards extends Component {
         endScreen: false
     }
     this.wrongAns = [];
-  }
+    }
 
-  componentDidMount = () => {
-      axios.get('http://localhost:5000/cards/')
-        .then(response => {
-          this.setState({
-              cards: response.data
+    componentDidMount = () => {
+        axios.get('http://localhost:5000/cards/')
+          .then(response => {
+            this.setState({
+                cards: response.data
+            })
           })
+          .catch((error) => {
+            console.log(error);
         })
-        .catch((error) => {
-          console.log(error);
-      })
-  }
+    }
 
-  handleInputChange = event => {
-      this.setState({input: event.target.value});
-  }
+    handleInputChange = event => {
+        this.setState({input: event.target.value});
+    }
 
-  handleCheckClick = event =>{
-      event.preventDefault();
+    handleCheckClick = event =>{
+        event.preventDefault();
 
-      //check answer (input against side2)
-      if(this.state.input === this.state.cards[this.state.currCard].side2){
-          this.setState({
-              //update score, penilize for each round
-              score: this.state.score + this.state.cards[this.state.currCard].level / this.state.round,
-              //update bgColor
-              bgColor: "success"
-          });
-          
-      } else {
-          this.setState({ 
-              //update text color
-              bgColor: "danger",
-          })
-          //update array of wrong answers
-          this.wrongAns.push(this.state.cards[this.state.currCard]);
-      }
-      this.setState({
-          //mark answer checked
-          checked: true,
+        //check answer (input against side2)
+        if(this.state.input === this.state.cards[this.state.currCard].side2){
+            this.setState({
+                //update score, penilize for each round
+                score: this.state.score + this.state.cards[this.state.currCard].level / this.state.round,
+                //update bgColor
+                bgColor: "success"
+            });
 
-          //update current side
-          currSide: !this.state.currSide
-      });
-      //clear input box and disable it
-      var form = document.getElementById("check-form");
-      form.reset();
-      form.ansInput.disabled = true;
-  }
-  
-  handleNextClick = event => {
-      event.preventDefault();
+        } else {
+            this.setState({ 
+                //update text color
+                bgColor: "danger",
+            })
+            //update array of wrong answers
+            this.wrongAns.push(this.state.cards[this.state.currCard]);
+        }
+        this.setState({
+            //mark answer checked
+            checked: true,
 
-      var nextCard;
-      //if the last card has not been reached
-      if(this.state.currCard + 1 < this.state.cards.length){
-          nextCard = this.state.currCard + 1;
-      } else {
-          if(this.wrongAns.length > 0){
-              this.setState({ 
-                  //make wrongAns the new cards
-                  cards: this.wrongAns,
+            //update current side
+            currSide: !this.state.currSide
+        });
+        //clear input box and disable it
+        var form = document.getElementById("check-form");
+        form.ansInput.disabled = true;
+    }
 
-                  //update round
-                  round: this.state.round + 1
-              });
+    handleNextClick = event => {
+        event.preventDefault();
 
-              //reset wrongAns
-              this.wrongAns = [];
-          } else {
-              //display endScreen
-              this.setState({ endScreen: true });
-              //could be changed to react router
-          }
-          nextCard = 0;
-      }
-      
-      this.setState({
+        var nextCard;
+        //if the last card has not been reached
+        if(this.state.currCard + 1 < this.state.cards.length){
+            nextCard = this.state.currCard + 1;
+        } else {
+            if(this.wrongAns.length > 0){
+                this.setState({ 
+                    //make wrongAns the new cards
+                    cards: this.wrongAns,
+
+                    //update round
+                    round: this.state.round + 1
+                });
+
+                //reset wrongAns
+                this.wrongAns = [];
+            } else {
+                //display endScreen
+                this.setState({ endScreen: true });
+                //could be changed to react router
+            }
+            nextCard = 0;
+        }
+
+        this.setState({
           //update current Card
           currCard: nextCard,
 
@@ -141,10 +140,11 @@ export default class Flashcards extends Component {
 
       //enable input box
       var form = document.getElementById("check-form");
+      form.reset();
       form.ansInput.disabled = false;
-  }
-  
-  render(){
+    }
+    
+    render(){
       return (
         <div>
       
@@ -154,9 +154,15 @@ export default class Flashcards extends Component {
             
             { !this.state.endScreen ? 
             <div>
-            { this.state.cards.length > 0 ? //can be replaced with optional chaining (?.): this.state.cards?.[] 
-                <Card score={this.state.score} bgColor={this.state.bgColor} currSide={this.state.currSide} side1={this.state.cards[this.state.currCard].side1} side2={this.state.cards[this.state.currCard].side2} level={this.state.cards[this.state.currCard].level}/> 
-            : null }
+             
+            <Card 
+                score = {this.state.score} 
+                bgColor = {this.state.bgColor} 
+                currSide = {this.state.currSide} 
+                side1 = {this.state.cards?.[this.state.currCard].side1} 
+                side2 = {this.state.cards?.[this.state.currCard].side2} 
+                level = {this.state.cards?.[this.state.currCard].level} 
+            /> 
             
             <form id="check-form">
             <div className="container">
@@ -177,15 +183,11 @@ export default class Flashcards extends Component {
             </div>
             </div>
             </form>
-
-            
-
             </div>
             : 
             <EndScreen score={this.state.score}/>
             }
         </div>
         </div>
-    )
-  }
+    )}
 }

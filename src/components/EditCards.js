@@ -21,9 +21,10 @@ class EditCard extends Component {
         super(props)
 
         this.state = {
-            side1: this.props.card.side1, //probably will be this.props.card.side1
+            side1: this.props.card.side1,
             side2: this.props.card.side2,
-            level: this.props.card.level,
+			level: this.props.card.level,
+			border: ""
         }
     }
 
@@ -37,18 +38,23 @@ class EditCard extends Component {
 		const updatedCard = {
 			side1: this.state.side1,
 			side2: this.state.side2,
-			level: this.state.level
+			level: this.state.level,
 		}
 
 		axios.post(`http://localhost:5000/cards/update/${this.props.card._id}`, updatedCard)
           .then(response => {
-            console.log(response.data);
+			console.log(response.data);
+			this.props.updateCards();
+
+			//outline inputs in green
+			this.setState({ border: "border border-success" });
+
+			//remove outline after 6 seconds
+			setTimeout(() => {this.setState({ border: "" })} , 6000);
           })
           .catch((error) => {
 			console.log(error);
 		})
-		
-		//window.location = '/';
 	}
 
 	handleDeleteClick = event => {
@@ -96,20 +102,28 @@ class EditCard extends Component {
         return ( 
 		
 			<form id="edit-card-form" className="row" >
-
+			
 			<div className="col-lg">
-            	<input type="text" name="side1" className="form-control form-control-lg" defaultValue={this.props.card.side1} onChange={this.handleInputChange} />
+				<input type="text" name="side1" 
+					className={`form-control form-control-lg ${this.state.border}`} 
+					defaultValue={this.props.card.side1} 
+					onChange={this.handleInputChange} 
+				/>
 			</div>
 
             <div className="col-lg">
-				<input type="text" name="side2" className="form-control form-control-lg" defaultValue={this.props.card.side2} onChange={this.handleInputChange} />
+				<input type="text" name="side2" 
+					className={`form-control form-control-lg ${this.state.border}`} 
+					defaultValue={this.props.card.side2} 
+					onChange={this.handleInputChange} 
+				/>
 			</div>
 			
 			<div className="col col-xl-3">
 			<div className="row">
 
 			<div className="col">
-			<select className="custom-select" style={{ height: "2.8rem", width:"3.4rem", fontSize:"1.3rem"}} name="level" onChange={this.handleInputChange} defaultValue={this.props.card.level}>
+			<select className={`custom-select ${this.state.border}`} style={{ height: "2.8rem", width:"3.4rem", fontSize:"1.3rem"}} name="level" onChange={this.handleInputChange} defaultValue={this.props.card.level}>
 				<option value="1">1</option>
       			<option value="2">2</option>
       			<option value="3">3</option>
@@ -137,7 +151,6 @@ class EditCard extends Component {
 			</div>
 			
 			</form>
-		
     )}
 }
 
@@ -172,12 +185,12 @@ export default class EditCards extends Component {
 		<div>
 		<div className="container" style={{ marginTop: "2%", textAlign: "center"}}>
 				
-			<h1 style={{padding:"1rem"}}>Edit Cards</h1>
+			<h2 style={{padding:"1rem"}}>French Cards</h2>
 
 			<ul className="list-group">
 				{ this.state.cards.map((card, index) => 
 					<li className="list-group-item" key={card?._id}> 
-						<h4 style={{float: "left", padding:"0.5rem"}}>{index+1})</h4> 
+						<h4 style={{float: "left", padding:"0.5rem", width:"2rem"}}>{index+1})</h4> 
 						<EditCard card={card} updateCards={this.handleUpdateCards}/>
 					</li> 
 				)}
