@@ -3,32 +3,32 @@ let Card = require('../models/card.model.js');
 
 // get all cards
 router.route('/').get((req, res) => {
-    Card.find()
-    .then(cards => res.json(cards))
-    .catch(err => res.status(400).json('Error: ' + err));
+  Card.find()
+  .then(cards => res.json(cards))
+  .catch(err => res.status(400).json('Error: ' + err));
 });
 
 // add a card
 router.route('/add').post((req, res) => {
-    const side1 = req.body.side1;
-    const side2 = req.body.side2;
-    const level = req.body.level;
-
-    const newCard = new Card({
-        side1, side2, level,
-    });
-
-    newCard.save() 
-    .then(() => res.json('Card Added'))
-    .catch(err => res.status(400).json('Error: ' + err));
+  const side1 = req.body.side1;
+  const side2 = req.body.side2;
+  const level = req.body.level;
+  
+  const newCard = new Card({
+    side1, side2, level,
+  });
+  
+  newCard.save() 
+  .then(() => res.json('Card Added'))
+  .catch(err => res.status(400).json('Error: ' + err));
 });
  
 // get a specific card
 router.route('/:id').get((req, res) => {
-    Card.findById(req.params.id)
-      .then(card => res.json(card))
-      .catch(err => res.status(400).json('Error: ' + err));
-  });
+  Card.findById(req.params.id)
+    .then(card => res.json(card))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
 
 // delete a specific card
 router.route('/:id').delete((req, res) => {
